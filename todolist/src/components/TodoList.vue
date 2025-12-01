@@ -17,3 +17,23 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+div {
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  width: 300px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  background: white;
+  margin: 5px 0;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+</style>

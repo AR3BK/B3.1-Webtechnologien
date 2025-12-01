@@ -12,13 +12,17 @@ export default {
   components: { TodoList },
   data() {
     return {
-      todoItems: [
-        "Einkaufen",
-        "Lernen",
-        "Hausaufgaben",
-        "In die kluft"
-      ]
+      todoItems: []
     };
+  },
+
+  mounted() {
+    fetch("https://b3-1-webtechnologien.onrender.com/aufgaben")
+        .then(res => res.json())
+        .then(data => {
+          this.todoItems = data.map(aufgabe => aufgabe.title);
+        })
+        .catch(err => console.error("API Fehler:", err));
   }
 };
 </script>
