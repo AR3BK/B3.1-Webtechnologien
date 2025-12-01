@@ -15,7 +15,6 @@ export default {
       todoItems: []
     };
   },
-
   mounted() {
     fetch("https://b3-1-webtechnologien.onrender.com/aufgaben")
         .then(res => res.json())
@@ -31,5 +30,13 @@ export default {
 main {
   padding: 20px;
   font-family: sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
 }
 </style>
