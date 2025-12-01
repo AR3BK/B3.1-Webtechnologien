@@ -29,11 +29,4 @@ ul {
   list-style: none;
   padding: 0;
 }
-li {
-  background: black;
-  margin: 5px 0;
-  padding: 6px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
 </style>
