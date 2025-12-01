@@ -30,7 +30,7 @@ ul {
   padding: 0;
 }
 li {
-  background: white;
+  background: black;
   margin: 5px 0;
   padding: 6px;
   border-radius: 5px;
