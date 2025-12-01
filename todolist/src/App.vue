@@ -20,7 +20,7 @@ export default {
     fetch("https://b3-1-webtechnologien.onrender.com/aufgaben")
         .then(res => res.json())
         .then(data => {
-          this.todoItems = data.map(aufgabe => aufgabe.title);
+          this.todoItems = data;
         })
         .catch(err => console.error("API Fehler:", err));
   }
