@@ -4,4 +4,7 @@ public class AufgabeDTO {
 
     public String getBeschreibung() {
     }
+
+    public String getTitel() {
+    }
 }
