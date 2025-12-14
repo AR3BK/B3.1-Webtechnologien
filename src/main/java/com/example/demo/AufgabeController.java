@@ -19,11 +19,9 @@ public class AufgabeController {
         return repo.findAll();
     }
 
+
     @PostMapping
-    public Aufgabe create(@RequestBody AufgabeDTO dto) {
-        Aufgabe a = new Aufgabe();
-        a.setTitel(dto.getTitel());
-        a.setBeschreibung(dto.getBeschreibung());
-        return repo.save(a);
+    public Aufgabe create(@RequestBody Aufgabe aufgabe) {
+        return repo.save(aufgabe);
     }
 }
