@@ -1,19 +1,29 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin( origins = {"http://localhost:3000", "https://b3-1-webtechnologien-1.onrender.com" } )
+@RequestMapping("/aufgaben")
+@CrossOrigin(origins = "*")
 public class AufgabeController {
 
-    @GetMapping("/aufgaben")
-    public List<Aufgabe> getAufgaben() {
-        return List.of(
-                new Aufgabe("Hausaufgabe", "Mathe machen", false),
-                new Aufgabe("Einkaufen", "Milch und Brot", true)
-        );
+    private final AufgabeRepository repo;
+
+    public AufgabeController(AufgabeRepository repo) {
+        this.repo = repo;
+    }
+
+    @GetMapping
+    public List<Aufgabe> getAll() {
+        return repo.findAll();
+    }
+
+    @PostMapping
+    public Aufgabe create(@RequestBody AufgabeDTO dto) {
+        Aufgabe a = new Aufgabe();
+        a.setTitel(dto.getTitel());
+        a.setBeschreibung(dto.getBeschreibung());
+        return repo.save(a);
     }
 }

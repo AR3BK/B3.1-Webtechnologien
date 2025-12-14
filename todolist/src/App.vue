@@ -34,7 +34,7 @@ main {
   min-height: 100vh;
 }
 
-h1 {
+h1 {  
   text-align: center;
   color: #333;
   margin-bottom: 20px;
