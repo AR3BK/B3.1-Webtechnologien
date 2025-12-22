@@ -1,21 +1,27 @@
 <template>
-  <div class="container">
-    <div
-        class="todo-card"
-        v-for="(todo, index) in todos"
-        :key="index"
-        :class="{ erledigt: todo.erledigt }"
-    >
-      <h3>{{ todo.titel }}</h3>
-      <p>{{ todo.beschreibung }}</p>
-      <span class="status">{{ todo.erledigt ? '✅ Erledigt' : '⏳ Offen' }}</span>
-    </div>
+  <div>
+    <h2>Meine Todos</h2>
+
+    <ul>
+      <li v-for="todo in todos" :key="todo.id">
+        <span :class="{ done: todo.erledigt }">
+          {{ todo.titel }} – {{ todo.beschreibung }}
+        </span>
+
+        <button @click="$emit('toggle', todo.id)">
+          {{ todo.erledigt ? "Undo" : "Erledigt" }}
+        </button>
+
+        <button @click="$emit('delete', todo.id)">
+          Löschen
+        </button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TodoList",
   props: {
     todos: Array
   }
@@ -23,34 +29,12 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.todo-card {
-  background: #fff;
-  padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.todo-card.erledigt {
-  opacity: 0.6;
+.done {
   text-decoration: line-through;
+  color: gray;
 }
 
-h3 {
-  margin: 0 0 8px 0;
-}
-
-p {
-  margin: 0 0 10px 0;
-}
-
-.status {
-  font-weight: bold;
-  color: #0077ff;
+li {
+  margin-bottom: 10px;
 }
 </style>

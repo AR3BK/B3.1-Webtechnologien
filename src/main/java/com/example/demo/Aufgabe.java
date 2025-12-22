@@ -33,3 +33,5 @@ public class Aufgabe {
     public boolean isErledigt() { return erledigt; }
     public void setErledigt(boolean erledigt) { this.erledigt = erledigt; }
 }
+
+

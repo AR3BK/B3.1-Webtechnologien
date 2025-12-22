@@ -14,14 +14,31 @@ public class AufgabeController {
         this.repo = repo;
     }
 
+    // GET alle Aufgaben
     @GetMapping
     public List<Aufgabe> getAll() {
         return repo.findAll();
     }
 
-
+    // POST neue Aufgabe
     @PostMapping
     public Aufgabe create(@RequestBody Aufgabe aufgabe) {
         return repo.save(aufgabe);
+    }
+
+    // PUT Status toggle
+    @PutMapping("/{id}/toggle")
+    public Aufgabe toggle(@PathVariable Long id) {
+        Aufgabe a = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aufgabe nicht gefunden"));
+
+        a.setErledigt(!a.isErledigt());
+        return repo.save(a);
+    }
+
+    // DELETE Aufgabe
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        repo.deleteById(id);
     }
 }
