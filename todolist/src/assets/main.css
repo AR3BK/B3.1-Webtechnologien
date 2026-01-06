@@ -121,3 +121,29 @@ li {
 .todo-actions button:hover {
   background: #777;
 }
+
+/* ===== Todo Karten Hover Effekt ===== */
+li {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+li:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Primärer Button (Erledigt / Undo) ===== */
+.todo-actions button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.todo-actions button:first-child:hover {
+  background-color: #43a047;
+}
+
+/* ===== Überschriften etwas edler ===== */
+h1,
+h2 {
+  letter-spacing: 0.5px;
+}
