@@ -4,21 +4,27 @@
 
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        <span :class="{ done: todo.erledigt }">
+        <span
+            class="todo-text"
+            :class="{ 'todo-done': todo.erledigt }"
+        >
           {{ todo.titel }} – {{ todo.beschreibung }}
         </span>
 
-        <button @click="$emit('toggle', todo.id)">
-          {{ todo.erledigt ? "Undo" : "Erledigt" }}
-        </button>
+        <div class="todo-actions">
+          <button @click="$emit('toggle', todo.id)">
+            {{ todo.erledigt ? "Undo" : "Erledigt" }}
+          </button>
 
-        <button @click="$emit('delete', todo.id)">
-          Löschen
-        </button>
+          <button @click="$emit('delete', todo.id)">
+            Löschen
+          </button>
+        </div>
       </li>
     </ul>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -27,14 +33,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.done {
-  text-decoration: line-through;
-  color: gray;
-}
-
-li {
-  margin-bottom: 10px;
-}
-</style>
