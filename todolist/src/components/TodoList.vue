@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <h2>Meine Todos</h2>
+  <ul class="todo-list">
+    <li v-for="todo in todos" :key="todo.id">
+      <input
+          type="checkbox"
+          :checked="todo.erledigt"
+          @change="$emit('toggle', todo.id)"
+      />
 
-    <ul>
-      <li v-for="todo in todos" :key="todo.id">
-        <span
-            class="todo-text"
-            :class="{ 'todo-done': todo.erledigt }"
-        >
-          {{ todo.titel }} – {{ todo.beschreibung }}
-        </span>
+      <span :class="{ done: todo.erledigt }">
+        {{ todo.titel }}
+      </span>
 
-        <div class="todo-actions">
-          <button @click="$emit('toggle', todo.id)">
-            {{ todo.erledigt ? "Undo" : "Erledigt" }}
-          </button>
+      <div class="actions">
+        <button @click="$emit('edit', todo)">Bearbeiten</button>
+        <button class="danger" @click="$emit('delete', todo.id)">
+          Löschen
+        </button>
+      </div>
+    </li>
 
-          <button @click="$emit('delete', todo.id)">
-            Löschen
-          </button>
-        </div>
-      </li>
-    </ul>
-  </div>
+    <li v-if="todos.length === 0" class="empty">
+      Keine Aufgaben vorhanden.
+    </li>
+  </ul>
 </template>
-
 
 <script>
 export default {
