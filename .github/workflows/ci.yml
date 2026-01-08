@@ -1,0 +1,46 @@
+name: CI - Backend & Frontend Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend:
+    name: Backend Tests (Spring Boot)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Java 17 einrichten
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Gradle Tests ausführen
+        run: ./gradlew test
+
+  frontend:
+    name: Frontend Tests (Vue + Vitest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Abhängigkeiten installieren
+        working-directory: todolist
+        run: npm install
+
+      - name: Frontend Tests ausführen
+        working-directory: todolist
+        run: npm test
