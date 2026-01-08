@@ -1,10 +1,10 @@
-name: CI - Backend & Frontend Tests
+name: CI – Backend & Frontend Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   backend:
@@ -21,7 +21,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Gradle Tests ausführen
+      - name: Gradle Wrapper ausführbar machen
+        run: chmod +x gradlew
+
+      - name: Backend Tests ausführen
         run: ./gradlew test
 
   frontend:
