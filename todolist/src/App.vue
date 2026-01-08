@@ -4,21 +4,23 @@
     <aside class="sidebar">
       <div class="logo">✓ Todo</div>
 
-      <div class="nav-title">Navigation</div>
-      <ul class="nav">
-        <li
-            :class="{ active: activeTab === 'open' }"
-            @click="activeTab = 'open'"
-        >
-          Aufgaben
-        </li>
-        <li
-            :class="{ active: activeTab === 'done' }"
-            @click="activeTab = 'done'"
-        >
-          Erledigt
-        </li>
-      </ul>
+      <div>
+        <div class="nav-title">Navigation</div>
+        <ul>
+          <li
+              :class="{ active: activeTab === 'open' }"
+              @click="activeTab = 'open'"
+          >
+            Offen
+          </li>
+          <li
+              :class="{ active: activeTab === 'done' }"
+              @click="activeTab = 'done'"
+          >
+            Erledigt
+          </li>
+        </ul>
+      </div>
 
       <div class="stats">
         <div><span class="dot open"></span> Offen {{ offene.length }}</div>
@@ -31,13 +33,19 @@
     <!-- MAIN -->
     <main class="main">
       <div class="content-card">
-        <h1>{{ activeTab === 'open' ? 'Aufgaben' : 'Erledigte Aufgaben' }}</h1>
+        <h1>
+          {{ activeTab === 'open' ? 'Offene Aufgaben' : 'Erledigte Aufgaben' }}
+        </h1>
+
         <p class="subtitle">
-          {{ activeTab === 'open'
-            ? 'Noch offene Aufgaben.'
-            : 'Bereits erledigte Aufgaben.' }}
+          {{
+            activeTab === 'open'
+                ? 'Noch nicht erledigte Aufgaben.'
+                : 'Bereits abgeschlossene Aufgaben.'
+          }}
         </p>
 
+        <!-- Button nur bei offenen Aufgaben -->
         <button
             v-if="activeTab === 'open'"
             class="add-btn"
@@ -46,16 +54,36 @@
           Neue Aufgabe hinzufügen
         </button>
 
-        <!-- FADE ANIMATION -->
-        <transition name="fade" mode="out-in">
-          <TodoList
-              :key="activeTab"
-              :todos="activeTab === 'open' ? offene : erledigte"
-              @toggle="toggleTodo"
-              @delete="askDelete"
-              @edit="startEdit"
-          />
-        </transition>
+        <!-- LISTEN -->
+        <TodoList
+            v-if="activeTab === 'open'"
+            :todos="offene"
+            @toggle="toggleTodo"
+            @delete="deleteTodo"
+            @edit="startEdit"
+        />
+
+        <TodoList
+            v-if="activeTab === 'done'"
+            :todos="erledigte"
+            @toggle="toggleTodo"
+            @delete="deleteTodo"
+            @edit="startEdit"
+        />
+
+        <p
+            v-if="activeTab === 'open' && offene.length === 0"
+            class="empty"
+        >
+          Keine offenen Aufgaben vorhanden.
+        </p>
+
+        <p
+            v-if="activeTab === 'done' && erledigte.length === 0"
+            class="empty"
+        >
+          Noch keine erledigten Aufgaben.
+        </p>
       </div>
     </main>
 
@@ -68,13 +96,13 @@
           tabindex="0"
       >
         <div class="modal">
-          <h2>{{ editing ? 'Aufgabe bearbeiten' : 'Todo hinzufügen' }}</h2>
+          <h2>{{ editing ? 'Aufgabe bearbeiten' : 'Aufgabe hinzufügen' }}</h2>
 
           <input
               v-model="form.titel"
               placeholder="Titel"
+              @keydown.enter.prevent="saveTodo"
               autofocus
-              @keydown.enter="saveTodo"
           />
 
           <textarea
@@ -131,7 +159,9 @@ export default {
 
   methods: {
     async loadTodos() {
-      const res = await fetch("https://b3-1-webtechnologien.onrender.com/aufgaben");
+      const res = await fetch(
+          "https://b3-1-webtechnologien.onrender.com/aufgaben"
+      );
       this.todos = await res.json();
     },
 
@@ -139,9 +169,6 @@ export default {
       this.editing = false;
       this.form = { titel: "", beschreibung: "" };
       this.showModal = true;
-      this.$nextTick(() => {
-        document.querySelector(".modal-backdrop")?.focus();
-      });
     },
 
     closeModal() {
@@ -196,11 +223,6 @@ export default {
       this.loadTodos();
     },
 
-    askDelete(id) {
-      if (!confirm("Aufgabe wirklich löschen?")) return;
-      this.deleteTodo(id);
-    },
-
     async deleteTodo(id) {
       await fetch(
           `https://b3-1-webtechnologien.onrender.com/aufgaben/${id}`,
@@ -215,30 +237,3 @@ export default {
   }
 };
 </script>
-
-<style>
-/* FADE LIST */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.25s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* MODAL */
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.25s ease;
-}
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-button.primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-</style>
