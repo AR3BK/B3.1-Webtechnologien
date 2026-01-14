@@ -26,6 +26,21 @@ public class AufgabeController {
         return repo.save(aufgabe);
     }
 
+    // PUT Aufgabe bearbeiten
+    @PutMapping("/{id}")
+    public Aufgabe update(
+            @PathVariable Long id,
+            @RequestBody Aufgabe updated
+    ) {
+        Aufgabe a = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aufgabe nicht gefunden"));
+
+        a.setTitel(updated.getTitel());
+        a.setBeschreibung(updated.getBeschreibung());
+
+        return repo.save(a);
+    }
+
     // PUT Status toggle
     @PutMapping("/{id}/toggle")
     public Aufgabe toggle(@PathVariable Long id) {
